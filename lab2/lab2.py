@@ -119,7 +119,7 @@ class Spock(Element):
 
 class Player:
     _name = ""
-    _lastPlay = ""
+    _lastPlay = Lizard("Lizard")
     def __init__(self, name):
         self._name = name
     def name(self):
@@ -128,17 +128,18 @@ class Player:
         return self._lastPlay
     def setLastPlay(self, move):
         self._lastPlay = move
-    def play(self):
+
+    def play(self, bot):
         raise NotImplementedError("Not yet implemented")
 
 class StupidBot(Player):
-    def play(self):
+    def play(self, bot):
         spock = Spock("Spock")
         self.setLastPlay(spock)
         return spock
 
 class RandomBot(Player):
-    def play(self):
+    def play(self, bot):
 
         rand = randint(1, 5)
         if(rand == 1):
@@ -162,22 +163,22 @@ class IterativeBot(Player):
                 yield item
 
     c = cycles([0,1,2,3,4], 1)
-    def play(self):
+    def play(self, bot):
         rock = Rock("Rock")
         paper = Paper("Paper")
         spock = Spock("Spock")
         lizard = Lizard("Lizard")
         scissors = Scissors("Scissors")
         moves = [rock, paper, scissors, lizard, spock]
-        return moves[self.c.next()]
+
+        move = moves[self.c.next()]
+        self.setLastPlay(move)
+        return move
 
 
 class LastPlayBot(Player):
     def play(self, bot):
         opponentMove = bot.lastPlay()
-        if(opponentMove == ""):
-            random = RandomBot("Random Getter")
-            opponentMove = random.play()
         return opponentMove
 
 class Human(Player):
@@ -187,7 +188,7 @@ class Human(Player):
         print "(3) : Scissors"
         print "(4) : Lizard"
         print "(5) : Spock"
-    def play(self):
+    def play(self, bot):
         rock = Rock("Rock")
         paper = Paper("Paper")
         spock = Spock("Spock")
@@ -199,7 +200,28 @@ class Human(Player):
         if((selection > 5)| (selection <1)):
             selection = input("Invalid move. Please try again: ")
         selection =(int) (selection - 1)
+
+        self.setLastPlay((moves[selection]))
         return moves[selection]
+
+class MyBot(Player):
+    _move = ""
+    def setMove(self, move):
+        self._move = move
+    def getMove(self):
+        return self._move
+
+    def play(self, bot):
+
+        rand = randint(1, 100)
+        if((rand % 2)==0 ):
+            self.setMove(bot.lastPlay())
+        else:
+            self.setMove(self.lastPlay())
+        self.setLastPlay(self.getMove())
+        return self.getMove()
+
+
 
 class Main:
     #Instantiate players
@@ -208,8 +230,9 @@ class Main:
     _iterativeBot = IterativeBot("Iterative Bot")
     _lastPlayBot = LastPlayBot("Last Play Bot")
     _human = Human("Human")
+    _myBot = MyBot("My Bot")
     #set up the bots array
-    bots = [_human, _stupidBot, _randomBot, _iterativeBot, _lastPlayBot]
+    bots = [_human, _stupidBot, _randomBot, _iterativeBot, _lastPlayBot, _myBot]
 
     _input1 = ""
     _input2 = ""
@@ -233,6 +256,7 @@ class Main:
         print "(3) : RandomBot"
         print "(4) : IterativeBot"
         print "(5) : LastPlayBot"
+        print "(6) : MyBot"
     #getters and setters for the player selection variables
     def setInput1(self, input):
         self._input1 = input
@@ -272,13 +296,13 @@ class Main:
         self.setInput2(int(input("Select player 2: ")))
 
         while(True):
-            if((self.getInput1()>5)|(self.getInput1()<1)):
+            if((self.getInput1()>len(self.bots))|(self.getInput1()<1)):
                 self.setInput1(int(input("Invalid player 1 selection. Please try again: ")))
             else:
                 self.setInput1(self.getInput1()-1)
                 break
         while(True):
-            if((self.getInput2()>5)|(self.getInput2()<1)):
+            if((self.getInput2()>len(self.bots))|(self.getInput2()<1)):
                 self.setInput2(int(input("Invalid player 2 selection. Please try again: ")))
             else:
                 self.setInput2(self.getInput2()-1)
@@ -288,24 +312,18 @@ class Main:
 
         print self.getPlayer1().name() + " vs " + self.getPlayer2().name() +". Go!"
         for round in range(1, self.rounds()+1):
-            if(self.getPlayer1().name() == "Last Play Bot"):
-                element1 = self.getPlayer1().play(self.getPlayer1())
-            else:
-                element1 = self.getPlayer1().play()
-            if(self.getPlayer2().name() == "Last Play Bot"):
-                element2 = self.getPlayer2().play(self.getPlayer1())
-            else:
-                element2 = self.getPlayer2().play()
+            element1 = self.getPlayer1().play(self.getPlayer2())
+            element2 = self.getPlayer2().play(self.getPlayer1())
             print "Round " + str(round) + ":"
-            print "  Player 1 chose " + element1.name()
-            print "  Player 2 chose " + element2.name()
+            print "  " + self.getPlayer1().name() + " chose " + element1.name()
+            print "  " + self.getPlayer2().name() + " chose " + element2.name()
             results = element1.compareTo(element2)
             print "  " + results[0]
             if(results[1] == "Win"):
-                print "  Player 1 won the round\n"
+                print "  " + self.getPlayer1().name() + " won the round\n"
                 self.setP1Score(self.getP1Score()+1)
             elif(results[1] == "Lose"):
-                print "  Player 2 won the round\n"
+                print "  " + self.getPlayer2().name() + " won the round\n"
                 self.setP2Score(self.getP2Score()+1)
             else:
                 print "  Round was a tie\n"
