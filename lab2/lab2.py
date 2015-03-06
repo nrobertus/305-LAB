@@ -292,8 +292,34 @@ class Main:
     #main function
     def run(self):
         self.printUI()
-        self.setInput1(int(input("Select player 1: ")))
-        self.setInput2(int(input("Select player 2: ")))
+
+    #    try:
+    #        self.setInput1(int(input("Select player 1: ")))
+    #    except:
+    #        print "Please type a number."
+    #    try:
+    #        self.setInput2(int(input("Select player 2: ")))
+    #    except:
+    #        print "Please type a number."
+
+
+        while(True):
+            try:
+                self.setInput1(int(input("Select player 1: ")))
+            except:
+                print "Please type a number."
+
+            if(type(self.getInput1()) is int):
+                break
+
+        while(True):
+            try:
+                self.setInput2(int(input("Select player 2: ")))
+            except:
+                print "Please type a number."
+
+            if(type(self.getInput2()) is int):
+                break
 
         while(True):
             if((self.getInput1()>len(self.bots))|(self.getInput1()<1)):

@@ -3,7 +3,7 @@
 3) git add -A
 4) git commit
 	4.1) type message
-	4.2) esc, :qw
+	4.2) esc, :wq
 5) git push
 
 6 celebrate.
