@@ -339,6 +339,6 @@ class Main:
 
 
 
-main = Main(5)
+main = Main(10)
 main.run()
 
