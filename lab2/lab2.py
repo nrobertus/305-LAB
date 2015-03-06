@@ -1,8 +1,6 @@
 from random import randint
 import itertools
 
-# Nathan is cool
-
 class Element:
     #A class for each element in the RPCLS Game
     _name='';
