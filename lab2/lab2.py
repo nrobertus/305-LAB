@@ -1,21 +1,26 @@
 from random import randint
 import itertools
-from Cheetah.Template import Template
-templateDef = """
-<HTML>
-<HEAD><TITLE>$title</TITLE></HEAD>
-<BODY>
-$contents
-## this is a single-line Cheetah comment and won't appear in the output
-#* This is a multi-line comment and won't appear in the output
-   blah, blah, blah
-*#
-</BODY>
-</HTML>"""
-
-nameSpace = {'title': 'Hello World Example', 'contents': 'Hello World!'}
-t = Template(templateDef, searchList=[nameSpace])
-print t
+import pygame
+import sys
+pygame.init()
+size = width, height = 320, 240
+speed = [2, 2]
+black = 0, 0, 0
+screen = pygame.display.set_mode(size)
+ball = pygame.image.load("desktop.jpg   ")
+ballrect = ball.get_rect()
+while 1:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            sys.exit()
+            ballrect = ballrect.move(speed)
+        if ballrect.left < 0 or ballrect.right > width:
+            speed[0] = -speed[0]
+        if ballrect.top < 0 or ballrect.bottom > height:
+            speed[1] = -speed[1]
+        screen.fill(black)
+        screen.blit(ball, ballrect)
+        pygame.display.flip()
 
 class Element:
     #A class for each element in the RPCLS Game
@@ -308,16 +313,6 @@ class Main:
     #main function
     def run(self):
         self.printUI()
-
-    #    try:
-    #        self.setInput1(int(input("Select player 1: ")))
-    #    except:
-    #        print "Please type a number."
-    #    try:
-    #        self.setInput2(int(input("Select player 2: ")))
-    #    except:
-    #        print "Please type a number."
-
 
         while(True):
             try:
