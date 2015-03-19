@@ -3,7 +3,7 @@ import itertools
 import pygame
 import sys
 
-
+# Initialize GUI systems
 pygame.init()
 size = width, height = 600, 600
 speed = [2, 2]
@@ -11,64 +11,88 @@ black = 0, 20, 40
 screen = pygame.display.set_mode(size)
 background = pygame.image.load("RPSLS.png")
 
+# Pre-load the image files for the human player
 default_back = pygame.image.load("RPSLS.png")
 spock_back = pygame.image.load("spock.png")
 paper_back = pygame.image.load("paper.png")
 lizard_back = pygame.image.load("lizard.png")
 rock_back = pygame.image.load("rock.png")
 scissors_back = pygame.image.load("scissors.png")
+
+# Other assorted necessary properties for the GUI generation
 backrect = background.get_rect()
 renderString = "Rock, Paper, Scissors, Lizard, Spock"
 humanPlayer = True
+font=pygame.font.Font(None,30)
+
+
 # coordinates: spock: (111, 259), scissors: (292, 117), paper: (488, 252), rock: (419, 475), lizard: (180, 484)
 # threshold: 90 px each way
+thresh = 90
+spock_pos = [111, 259]
+scissors_pos = [292, 117]
+paper_pos = [488, 252]
+rock_pos = [419, 475]
+lizard_pos = [180, 484]
 
 
+# Function to get the GUI image based on cursor position
+def GUI_GetPlay(x, y):
+    if (mouse_x > (spock_pos[0] - thresh)) and (mouse_x < (spock_pos[0] + thresh)) and (mouse_y > (spock_pos[1]-thresh)) and (mouse_y < (spock_pos[1]+thresh)):
+        return "spock"
+    elif (mouse_x > (lizard_pos[0] - thresh)) and (mouse_x < (lizard_pos[0] + thresh)) and (mouse_y > (lizard_pos[1]-thresh)) and (mouse_y < (lizard_pos[1]+thresh)):
+        return "lizard"
+    elif (mouse_x > (paper_pos[0] - thresh)) and (mouse_x < (paper_pos[0] + thresh)) and (mouse_y > (paper_pos[1]-thresh)) and (mouse_y < (paper_pos[1]+thresh)):
+        return "paper"
+    elif (mouse_x > (rock_pos[0] - thresh)) and (mouse_x < (rock_pos[0] + thresh)) and (mouse_y > (rock_pos[1]-thresh)) and (mouse_y < (rock_pos[1]+thresh)):
+        return "rock"
+    elif (mouse_x > (scissors_pos[0] - thresh)) and (mouse_x < (scissors_pos[0] + thresh)) and (mouse_y > (scissors_pos[1]-thresh)) and (mouse_y < (scissors_pos[1]+thresh)):
+        return "scissors"
+    else:
+        return "none"
+
+# Looping function to keep the GUI refreshed
 while 1:
-    font=pygame.font.Font(None,30)
-    thresh = 90
-    spock_pos = [111, 259]
-    scissors_pos = [292, 117]
-    paper_pos = [488, 252]
-    rock_pos = [419, 475]
-    lizard_pos = [180, 484]
-    #print pygame.mouse.get_pos()
     for event in pygame.event.get():
         mouse_x = pygame.mouse.get_pos()[0]
         mouse_y = pygame.mouse.get_pos()[1]
         if(humanPlayer):
-            if (mouse_x > (spock_pos[0] - thresh)) and (mouse_x < (spock_pos[0] + thresh)) and (mouse_y > (spock_pos[1]-thresh)) and (mouse_y < (spock_pos[1]+thresh)):
-                background = spock_back
-            elif (mouse_x > (lizard_pos[0] - thresh)) and (mouse_x < (lizard_pos[0] + thresh)) and (mouse_y > (lizard_pos[1]-thresh)) and (mouse_y < (lizard_pos[1]+thresh)):
-                background = lizard_back
-            elif (mouse_x > (paper_pos[0] - thresh)) and (mouse_x < (paper_pos[0] + thresh)) and (mouse_y > (paper_pos[1]-thresh)) and (mouse_y < (paper_pos[1]+thresh)):
-                background = paper_back
-            elif (mouse_x > (rock_pos[0] - thresh)) and (mouse_x < (rock_pos[0] + thresh)) and (mouse_y > (rock_pos[1]-thresh)) and (mouse_y < (rock_pos[1]+thresh)):
+            play = GUI_GetPlay(mouse_x, mouse_y)
+            if(play == "rock"):
                 background = rock_back
-            elif (mouse_x > (scissors_pos[0] - thresh)) and (mouse_x < (scissors_pos[0] + thresh)) and (mouse_y > (scissors_pos[1]-thresh)) and (mouse_y < (scissors_pos[1]+thresh)):
-                background = scissors_back
+            elif(play=="paper"):
+                background = paper_back
+            elif(play=="scissors"):
+                background=scissors_back
+            elif(play == "lizard"):
+                background=lizard_back
+            elif(play == "spock"):
+                background=spock_back
             else:
-                background = default_back
-        if event.type == pygame.QUIT:
-            sys.exit()
-            backrect = backrect.move(speed)
-
+                background=default_back
         if backrect.left < 0 or backrect.right > width:
             speed[0] = -speed[0]
         if backrect.top < 0 or backrect.bottom > height:
             speed[1] = -speed[1]
-        screen.fill(black)
-        screen.blit(background, backrect)
-
-        scoretext=font.render(renderString,1,(255,255,255))
-        screen.blit(scoretext, (110, 5))
         if event.type == pygame.MOUSEBUTTONUP:
             pos = pygame.mouse.get_pos()
-            renderString = str(pos)
-            print pos
+            x_pos = pos[0]
+            y_pos = pos[1]
+            print GUI_GetPlay(x_pos, y_pos)
+        if event.type == pygame.QUIT:
+            sys.exit()
+        screen.fill(black)
+        screen.blit(background, backrect)
+        scoretext=font.render(renderString,1,(255,255,255))
+        screen.blit(scoretext, (110, 5))
         pygame.display.flip()
 
 
+############################################
+##  PLAYER AND ELEMENT CLASS SYSTEM
+############################################
+
+'''Base class for elements'''
 class Element:
     #A class for each element in the RPCLS Game
     _name='';
@@ -79,6 +103,7 @@ class Element:
     def compareTo(Element):
         raise NotImplementedError("Not yet implemented.")
 
+'''Rock class and logic -- Extends Element'''
 class Rock(Element):
     def compareTo(self, Element):
         outputString = ""
@@ -100,7 +125,7 @@ class Rock(Element):
             outcome = "Lose"
         return (outputString, outcome)
 
-
+'''Paper class and logic -- Extends Element'''
 class Paper(Element):
     def compareTo(self, Element):
         outputString = ""
@@ -122,6 +147,7 @@ class Paper(Element):
             outcome = "Lose"
         return (outputString, outcome)
 
+'''Scissors class and logic -- Extends Element'''
 class Scissors(Element):
     def compareTo(self, Element):
         outputString = ""
@@ -143,6 +169,7 @@ class Scissors(Element):
             outcome = "Lose"
         return (outputString, outcome)
 
+'''Lizard class and logic -- Extends Element'''
 class Lizard(Element):
     def compareTo(self, Element):
         outputString = ""
@@ -164,6 +191,7 @@ class Lizard(Element):
             outcome = "Lose"
         return (outputString, outcome)
 
+'''Spock class and logic -- Extends Element'''
 class Spock(Element):
     def compareTo(self, Element):
         outputString = ""
@@ -185,6 +213,7 @@ class Spock(Element):
             outcome = "Lose"
         return (outputString, outcome)
 
+'''Base class for players'''
 class Player:
     _name = ""
     _lastPlay = Lizard("Lizard")
@@ -200,12 +229,14 @@ class Player:
     def play(self, bot):
         raise NotImplementedError("Not yet implemented")
 
+'''StupidBot class and logic -- Extends Player'''
 class StupidBot(Player):
     def play(self, bot):
         spock = Spock("Spock")
         self.setLastPlay(spock)
         return spock
 
+'''RandomBot class and logic -- Extends Player'''
 class RandomBot(Player):
     def play(self, bot):
 
@@ -223,7 +254,7 @@ class RandomBot(Player):
         self.setLastPlay(move)
         return move
 
-
+'''IterativeBot class and logic -- Extends Player'''
 class IterativeBot(Player):
     def cycles(iterable, repeat=1):
         for item in itertools.cycle(iterable):
@@ -243,12 +274,13 @@ class IterativeBot(Player):
         self.setLastPlay(move)
         return move
 
-
+'''LastPlayBot class and logic -- Extends Player'''
 class LastPlayBot(Player):
     def play(self, bot):
         opponentMove = bot.lastPlay()
         return opponentMove
 
+'''Human class and User Interface -- Extends Player'''
 class Human(Player):
     def printUI(self):
         print "(1) : Rock"
@@ -272,6 +304,7 @@ class Human(Player):
         self.setLastPlay((moves[selection]))
         return moves[selection]
 
+'''MyBot class and logic -- Extends Player'''
 class MyBot(Player):
     _move = ""
     def setMove(self, move):
@@ -290,7 +323,7 @@ class MyBot(Player):
         return self.getMove()
 
 
-
+'''Main class and game control'''
 class Main:
     #Instantiate players
     _stupidBot = StupidBot("Stupid Bot")
@@ -423,6 +456,6 @@ class Main:
 
 
 
-main = Main(10)
-main.run()
+main = Main(10) # Set up main class and decide on ten rounds
+main.run() # Execute the main function to prompt user for input, execute matches, and print results
 
