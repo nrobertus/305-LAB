@@ -3,24 +3,34 @@ import itertools
 import pygame
 import sys
 pygame.init()
-size = width, height = 320, 240
+size = width, height = 600, 600
 speed = [2, 2]
-black = 0, 0, 0
+black = 0, 20, 40
 screen = pygame.display.set_mode(size)
-ball = pygame.image.load("desktop.jpg   ")
-ballrect = ball.get_rect()
+background = pygame.image.load("RPSLS.png")
+backrect = background.get_rect()
+renderString = "Rock, Paper, Scissors, Lizard, Spock"
 while 1:
+    #print pygame.mouse.get_pos()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
-            ballrect = ballrect.move(speed)
-        if ballrect.left < 0 or ballrect.right > width:
+            backrect = backrect.move(speed)
+        if backrect.left < 0 or backrect.right > width:
             speed[0] = -speed[0]
-        if ballrect.top < 0 or ballrect.bottom > height:
+        if backrect.top < 0 or backrect.bottom > height:
             speed[1] = -speed[1]
         screen.fill(black)
-        screen.blit(ball, ballrect)
+        screen.blit(background, backrect)
+        font=pygame.font.Font(None,30)
+        scoretext=font.render(renderString,1,(255,255,255))
+        screen.blit(scoretext, (110, 5))
+        if event.type == pygame.MOUSEBUTTONUP:
+            pos = pygame.mouse.get_pos()
+            renderString = str(pos)
+            print pos
         pygame.display.flip()
+
 
 class Element:
     #A class for each element in the RPCLS Game
