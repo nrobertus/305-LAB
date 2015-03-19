@@ -2,27 +2,64 @@ from random import randint
 import itertools
 import pygame
 import sys
+
+
 pygame.init()
 size = width, height = 600, 600
 speed = [2, 2]
 black = 0, 20, 40
 screen = pygame.display.set_mode(size)
 background = pygame.image.load("RPSLS.png")
+
+default_back = pygame.image.load("RPSLS.png")
+spock_back = pygame.image.load("spock.png")
+paper_back = pygame.image.load("paper.png")
+lizard_back = pygame.image.load("lizard.png")
+rock_back = pygame.image.load("rock.png")
+scissors_back = pygame.image.load("scissors.png")
 backrect = background.get_rect()
 renderString = "Rock, Paper, Scissors, Lizard, Spock"
+humanPlayer = True
+# coordinates: spock: (111, 259), scissors: (292, 117), paper: (488, 252), rock: (419, 475), lizard: (180, 484)
+# threshold: 90 px each way
+
+
 while 1:
+    font=pygame.font.Font(None,30)
+    thresh = 90
+    spock_pos = [111, 259]
+    scissors_pos = [292, 117]
+    paper_pos = [488, 252]
+    rock_pos = [419, 475]
+    lizard_pos = [180, 484]
     #print pygame.mouse.get_pos()
     for event in pygame.event.get():
+        mouse_x = pygame.mouse.get_pos()[0]
+        mouse_y = pygame.mouse.get_pos()[1]
+        if(humanPlayer):
+            if (mouse_x > (spock_pos[0] - thresh)) and (mouse_x < (spock_pos[0] + thresh)) and (mouse_y > (spock_pos[1]-thresh)) and (mouse_y < (spock_pos[1]+thresh)):
+                background = spock_back
+            elif (mouse_x > (lizard_pos[0] - thresh)) and (mouse_x < (lizard_pos[0] + thresh)) and (mouse_y > (lizard_pos[1]-thresh)) and (mouse_y < (lizard_pos[1]+thresh)):
+                background = lizard_back
+            elif (mouse_x > (paper_pos[0] - thresh)) and (mouse_x < (paper_pos[0] + thresh)) and (mouse_y > (paper_pos[1]-thresh)) and (mouse_y < (paper_pos[1]+thresh)):
+                background = paper_back
+            elif (mouse_x > (rock_pos[0] - thresh)) and (mouse_x < (rock_pos[0] + thresh)) and (mouse_y > (rock_pos[1]-thresh)) and (mouse_y < (rock_pos[1]+thresh)):
+                background = rock_back
+            elif (mouse_x > (scissors_pos[0] - thresh)) and (mouse_x < (scissors_pos[0] + thresh)) and (mouse_y > (scissors_pos[1]-thresh)) and (mouse_y < (scissors_pos[1]+thresh)):
+                background = scissors_back
+            else:
+                background = default_back
         if event.type == pygame.QUIT:
             sys.exit()
             backrect = backrect.move(speed)
+
         if backrect.left < 0 or backrect.right > width:
             speed[0] = -speed[0]
         if backrect.top < 0 or backrect.bottom > height:
             speed[1] = -speed[1]
         screen.fill(black)
         screen.blit(background, backrect)
-        font=pygame.font.Font(None,30)
+
         scoretext=font.render(renderString,1,(255,255,255))
         screen.blit(scoretext, (110, 5))
         if event.type == pygame.MOUSEBUTTONUP:
