@@ -22,7 +22,6 @@ scissors_back = pygame.image.load("scissors.png")
 # Other assorted necessary properties for the GUI generation
 backrect = background.get_rect()
 renderString = "Rock, Paper, Scissors, Lizard, Spock"
-humanPlayer = True
 font=pygame.font.Font(None,30)
 
 
@@ -34,59 +33,6 @@ scissors_pos = [292, 117]
 paper_pos = [488, 252]
 rock_pos = [419, 475]
 lizard_pos = [180, 484]
-
-
-# Function to get the GUI image based on cursor position
-def GUI_GetPlay(x, y):
-    if (mouse_x > (spock_pos[0] - thresh)) and (mouse_x < (spock_pos[0] + thresh)) and (mouse_y > (spock_pos[1]-thresh)) and (mouse_y < (spock_pos[1]+thresh)):
-        return "spock"
-    elif (mouse_x > (lizard_pos[0] - thresh)) and (mouse_x < (lizard_pos[0] + thresh)) and (mouse_y > (lizard_pos[1]-thresh)) and (mouse_y < (lizard_pos[1]+thresh)):
-        return "lizard"
-    elif (mouse_x > (paper_pos[0] - thresh)) and (mouse_x < (paper_pos[0] + thresh)) and (mouse_y > (paper_pos[1]-thresh)) and (mouse_y < (paper_pos[1]+thresh)):
-        return "paper"
-    elif (mouse_x > (rock_pos[0] - thresh)) and (mouse_x < (rock_pos[0] + thresh)) and (mouse_y > (rock_pos[1]-thresh)) and (mouse_y < (rock_pos[1]+thresh)):
-        return "rock"
-    elif (mouse_x > (scissors_pos[0] - thresh)) and (mouse_x < (scissors_pos[0] + thresh)) and (mouse_y > (scissors_pos[1]-thresh)) and (mouse_y < (scissors_pos[1]+thresh)):
-        return "scissors"
-    else:
-        return "none"
-
-# Looping function to keep the GUI refreshed
-while 1:
-    for event in pygame.event.get():
-        mouse_x = pygame.mouse.get_pos()[0]
-        mouse_y = pygame.mouse.get_pos()[1]
-        if(humanPlayer):
-            play = GUI_GetPlay(mouse_x, mouse_y)
-            if(play == "rock"):
-                background = rock_back
-            elif(play=="paper"):
-                background = paper_back
-            elif(play=="scissors"):
-                background=scissors_back
-            elif(play == "lizard"):
-                background=lizard_back
-            elif(play == "spock"):
-                background=spock_back
-            else:
-                background=default_back
-        if backrect.left < 0 or backrect.right > width:
-            speed[0] = -speed[0]
-        if backrect.top < 0 or backrect.bottom > height:
-            speed[1] = -speed[1]
-        if event.type == pygame.MOUSEBUTTONUP:
-            pos = pygame.mouse.get_pos()
-            x_pos = pos[0]
-            y_pos = pos[1]
-            print GUI_GetPlay(x_pos, y_pos)
-        if event.type == pygame.QUIT:
-            sys.exit()
-        screen.fill(black)
-        screen.blit(background, backrect)
-        scoretext=font.render(renderString,1,(255,255,255))
-        screen.blit(scoretext, (110, 5))
-        pygame.display.flip()
-
 
 ############################################
 ##  PLAYER AND ELEMENT CLASS SYSTEM
@@ -288,6 +234,19 @@ class Human(Player):
         print "(3) : Scissors"
         print "(4) : Lizard"
         print "(5) : Spock"
+    def GUI_GetPlay(self, mouse_x, mouse_y):
+        if (mouse_x > (spock_pos[0] - thresh)) and (mouse_x < (spock_pos[0] + thresh)) and (mouse_y > (spock_pos[1]-thresh)) and (mouse_y < (spock_pos[1]+thresh)):
+            return "spock"
+        elif (mouse_x > (lizard_pos[0] - thresh)) and (mouse_x < (lizard_pos[0] + thresh)) and (mouse_y > (lizard_pos[1]-thresh)) and (mouse_y < (lizard_pos[1]+thresh)):
+            return "lizard"
+        elif (mouse_x > (paper_pos[0] - thresh)) and (mouse_x < (paper_pos[0] + thresh)) and (mouse_y > (paper_pos[1]-thresh)) and (mouse_y < (paper_pos[1]+thresh)):
+            return "paper"
+        elif (mouse_x > (rock_pos[0] - thresh)) and (mouse_x < (rock_pos[0] + thresh)) and (mouse_y > (rock_pos[1]-thresh)) and (mouse_y < (rock_pos[1]+thresh)):
+            return "rock"
+        elif (mouse_x > (scissors_pos[0] - thresh)) and (mouse_x < (scissors_pos[0] + thresh)) and (mouse_y > (scissors_pos[1]-thresh)) and (mouse_y < (scissors_pos[1]+thresh)):
+            return "scissors"
+        else:
+            return "none"
     def play(self, bot):
         rock = Rock("Rock")
         paper = Paper("Paper")
@@ -295,12 +254,66 @@ class Human(Player):
         lizard = Lizard("Lizard")
         scissors = Scissors("Scissors")
         moves = [rock, paper, scissors, lizard, spock]
-        self.printUI()
-        selection = int(input("Enter your move: "))
-        if((selection > 5)| (selection <1)):
-            selection = input("Invalid move. Please try again: ")
-        selection =(int) (selection - 1)
+        selection = 0
+        noInput = True
+        while noInput:
+            for event in pygame.event.get():
+                mouse_x = pygame.mouse.get_pos()[0]
+                mouse_y = pygame.mouse.get_pos()[1]
+                play = self.GUI_GetPlay(mouse_x, mouse_y)
+                if(play == "rock"):
+                    background = rock_back
+                elif(play=="paper"):
+                    background = paper_back
+                elif(play=="scissors"):
+                    background=scissors_back
+                elif(play == "lizard"):
+                    background=lizard_back
+                elif(play == "spock"):
+                    background=spock_back
+                else:
+                    background=default_back
+                if backrect.left < 0 or backrect.right > width:
+                    speed[0] = -speed[0]
+                if backrect.top < 0 or backrect.bottom > height:
+                    speed[1] = -speed[1]
+                if event.type == pygame.MOUSEBUTTONUP:
+                    pos = pygame.mouse.get_pos()
+                    x_pos = pos[0]
+                    y_pos = pos[1]
+                    play =  self.GUI_GetPlay(x_pos, y_pos)
+                    print play
+                    if play == "rock":
+                        selection = 0
+                        noInput = False
+                    elif play == "paper":
+                        selection = 1
+                        noInput = False
+                    elif play == "scissors":
+                        selection = 2
+                        noInput = False
+                    elif play == "lizard":
+                        selection = 3
+                        noInput = False
+                    elif play == "spock":
+                        selection = 4
+                        noInput = False
+                    elif play == "none":
+                        selection = -1
+                if event.type == pygame.QUIT:
+                    sys.exit()
+                screen.fill(black)
+                screen.blit(background, backrect)
+                title=font.render(renderString,1,(255,255,255))
+                screen.blit(title, (110, 5))
+                pygame.display.flip()
 
+        self.printUI()
+        #selection = int(input("Enter your move: "))
+        #if((selection > 5)| (selection <1)):
+        #    selection = input("Invalid move. Please try again: ")
+        #selection =(int) (selection - 1)
+        print "exited"
         self.setLastPlay((moves[selection]))
         return moves[selection]
 
@@ -346,9 +359,17 @@ class Main:
     _p1_score = 0
     _p2_score = 0
 
+    _currentState = "userInput"
+
     def __init__(self, rounds):
         self._rounds = rounds
         print "Welcome to Rock, Paper, Scissors, Lizard, Spock, implemented by Nathan Robertus"
+
+    def getCurrentState(self):
+        return self._currentState
+
+    def setCurrentState(self, state):
+        self._currentState = state
 
     def printUI(self):
         print "Please choose two players:"
@@ -391,10 +412,26 @@ class Main:
     def rounds(self):
         return self._rounds
     #main function
+
+
     def run(self):
         self.printUI()
-
+        self.setCurrentState("humanPlayer")
         while(True):
+            while self.getCurrentState() == "userInput":
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        sys.exit()
+                    screen.fill(black)
+                    screen.blit(background, backrect)
+                    title=font.render("Player Selection: ",1,(255,255,255))
+                    screen.blit(title, (110, 5))
+                    pygame.display.flip()
+            while self.getCurrentState() == "postGame":
+                for event in pygame.event.get():
+
+                    if event.type == pygame.QUIT:
+                        sys.exit()
             try:
                 self.setInput1(int(input("Select player 1: ")))
             except:
@@ -402,6 +439,7 @@ class Main:
 
             if(type(self.getInput1()) is int):
                 break
+
 
         while(True):
             try:
@@ -458,4 +496,3 @@ class Main:
 
 main = Main(10) # Set up main class and decide on ten rounds
 main.run() # Execute the main function to prompt user for input, execute matches, and print results
-
