@@ -9,7 +9,7 @@ size = width, height = 600, 600
 speed = [2, 2]
 black = 0, 20, 40
 screen = pygame.display.set_mode(size)
-background = pygame.image.load("RPSLS.png")
+background = pygame.image.load("selection_default.png")
 
 # Pre-load the image files for the human player
 default_back = pygame.image.load("RPSLS.png")
@@ -19,7 +19,18 @@ lizard_back = pygame.image.load("lizard.png")
 rock_back = pygame.image.load("rock.png")
 scissors_back = pygame.image.load("scissors.png")
 
+# Pre-Load the images for the player selection
+selection_back = pygame.image.load("selection_default.png")
+human_back = pygame.image.load("selection_human.png")
+stupid_back = pygame.image.load("selection_stupid.png")
+random_back = pygame.image.load("selection_random.png")
+iterative_back = pygame.image.load("selection_iterative.png")
+lastPlay_back = pygame.image.load("selection_lastPlay.png")
+my_back = pygame.image.load("selection_my.png")
+
 # Other assorted necessary properties for the GUI generation
+_player1 = ""
+_player2 = ""
 backrect = background.get_rect()
 renderString = "Rock, Paper, Scissors, Lizard, Spock"
 font=pygame.font.Font(None,30)
@@ -33,6 +44,17 @@ scissors_pos = [292, 117]
 paper_pos = [488, 252]
 rock_pos = [419, 475]
 lizard_pos = [180, 484]
+
+# coordinates: human: (177, 117), stupid: (), random: (), iterative: (), last play: (), my bot ()
+# threshold: (136, 24)
+thresh_x = 136
+thresh_y = 24
+human_pos = [177, 117]
+stupid_pos = [177, 176]
+random_pos = [177, 235]
+iterative_pos = [177, 294]
+lastPlay_pos = [177, 353]
+my_pos = [177, 412]
 
 ############################################
 ##  PLAYER AND ELEMENT CLASS SYSTEM
@@ -234,16 +256,16 @@ class Human(Player):
         print "(3) : Scissors"
         print "(4) : Lizard"
         print "(5) : Spock"
-    def GUI_GetPlay(self, mouse_x, mouse_y):
-        if (mouse_x > (spock_pos[0] - thresh)) and (mouse_x < (spock_pos[0] + thresh)) and (mouse_y > (spock_pos[1]-thresh)) and (mouse_y < (spock_pos[1]+thresh)):
+    def GUI_GetPlay(self, x, y):
+        if (x > (spock_pos[0] - thresh)) and (x < (spock_pos[0] + thresh)) and (y > (spock_pos[1]-thresh)) and (y < (spock_pos[1]+thresh)):
             return "spock"
-        elif (mouse_x > (lizard_pos[0] - thresh)) and (mouse_x < (lizard_pos[0] + thresh)) and (mouse_y > (lizard_pos[1]-thresh)) and (mouse_y < (lizard_pos[1]+thresh)):
+        elif (x > (lizard_pos[0] - thresh)) and (x < (lizard_pos[0] + thresh)) and (y > (lizard_pos[1]-thresh)) and (y < (lizard_pos[1]+thresh)):
             return "lizard"
-        elif (mouse_x > (paper_pos[0] - thresh)) and (mouse_x < (paper_pos[0] + thresh)) and (mouse_y > (paper_pos[1]-thresh)) and (mouse_y < (paper_pos[1]+thresh)):
+        elif (x > (paper_pos[0] - thresh)) and (x < (paper_pos[0] + thresh)) and (y > (paper_pos[1]-thresh)) and (y < (paper_pos[1]+thresh)):
             return "paper"
-        elif (mouse_x > (rock_pos[0] - thresh)) and (mouse_x < (rock_pos[0] + thresh)) and (mouse_y > (rock_pos[1]-thresh)) and (mouse_y < (rock_pos[1]+thresh)):
+        elif (x > (rock_pos[0] - thresh)) and (x < (rock_pos[0] + thresh)) and (y > (rock_pos[1]-thresh)) and (y < (rock_pos[1]+thresh)):
             return "rock"
-        elif (mouse_x > (scissors_pos[0] - thresh)) and (mouse_x < (scissors_pos[0] + thresh)) and (mouse_y > (scissors_pos[1]-thresh)) and (mouse_y < (scissors_pos[1]+thresh)):
+        elif (x > (scissors_pos[0] - thresh)) and (x < (scissors_pos[0] + thresh)) and (y > (scissors_pos[1]-thresh)) and (y < (scissors_pos[1]+thresh)):
             return "scissors"
         else:
             return "none"
@@ -282,7 +304,6 @@ class Human(Player):
                     x_pos = pos[0]
                     y_pos = pos[1]
                     play =  self.GUI_GetPlay(x_pos, y_pos)
-                    print play
                     if play == "rock":
                         selection = 0
                         noInput = False
@@ -305,6 +326,10 @@ class Human(Player):
                 screen.fill(black)
                 screen.blit(background, backrect)
                 title=font.render(renderString,1,(255,255,255))
+                player1_text = font.render("Player 1: "+_player1, 1, (255, 255, 255))
+                player2_text = font.render("Player 2: "+_player2, 1, (255, 255, 255))
+                screen.blit(player1_text, (5, 575))
+                screen.blit(player2_text, (305, 575))
                 screen.blit(title, (110, 5))
                 pygame.display.flip()
 
@@ -411,59 +436,125 @@ class Main:
     #get the number of rounds
     def rounds(self):
         return self._rounds
+
+    def GUI_get_player_selection(self, x, y):
+        if (x > (human_pos[0] - thresh_x)) and (x < (human_pos[0] + thresh_x)) and (y > (human_pos[1]-thresh_y)) and (y < (human_pos[1]+thresh_y)):
+            return "human"
+        elif (x > (stupid_pos[0] - thresh_x)) and (x < (stupid_pos[0] + thresh_x)) and (y > (stupid_pos[1]-thresh_y)) and (y < (stupid_pos[1]+thresh_y)):
+            return "stupid"
+        elif (x > (random_pos[0] - thresh_x)) and (x < (random_pos[0] + thresh_x)) and (y > (random_pos[1]-thresh_y)) and (y < (random_pos[1]+thresh_y)):
+            return "random"
+        elif (x > (iterative_pos[0] - thresh_x)) and (x < (iterative_pos[0] + thresh_x)) and (y > (iterative_pos[1]-thresh_y)) and (y < (iterative_pos[1]+thresh_y)):
+            return "iterative"
+        elif (x > (lastPlay_pos[0] - thresh_x)) and (x < (lastPlay_pos[0] + thresh_x)) and (y > (lastPlay_pos[1]-thresh_y)) and (y < (lastPlay_pos[1]+thresh_y)):
+            return "lastPlay"
+        elif (x > (my_pos[0] - thresh_x)) and (x < (my_pos[0] + thresh_x)) and (y > (my_pos[1]-thresh_y)) and (y < (my_pos[1]+thresh_y)):
+            return "my"
+        else:
+            return "none"
+
     #main function
-
-
     def run(self):
         self.printUI()
-        self.setCurrentState("humanPlayer")
-        while(True):
+        self.setCurrentState("userInput")
+        player1_selection = ""
+        player2_selection = ""
+        noPlayers = True
+        while(noPlayers):
             while self.getCurrentState() == "userInput":
                 for event in pygame.event.get():
+                    mouse_x = pygame.mouse.get_pos()[0]
+                    mouse_y = pygame.mouse.get_pos()[1]
+
+                    player = self.GUI_get_player_selection(mouse_x, mouse_y)
+                    if player == "human":
+                        background = human_back
+                    elif player == "stupid":
+                        background = stupid_back
+                    elif player == "random":
+                        background = random_back
+                    elif player == "iterative":
+                        background = iterative_back
+                    elif player == "lastPlay":
+                        background = lastPlay_back
+                    elif player == "my":
+                        background = my_back
+                    else:
+                        background = selection_back
                     if event.type == pygame.QUIT:
                         sys.exit()
+                    if event.type == pygame.MOUSEBUTTONUP:
+                        pos = pygame.mouse.get_pos()
+                        x_pos = pos[0]
+                        y_pos = pos[1]
+                        player = self.GUI_get_player_selection(x_pos, y_pos)
+                        if(player1_selection == ""):
+                            if player == "human":
+                                player1_selection = "Human"
+                                self.setPlayer1(self.bots[0])
+                            elif player == "stupid":
+                                player1_selection = "Stupid Bot"
+                                self.setPlayer1(self.bots[1])
+                            elif player == "random":
+                                player1_selection = "Random Bot"
+                                self.setPlayer1(self.bots[2])
+                            elif player == "iterative":
+                                player1_selection = "Iterative Bot"
+                                self.setPlayer1(self.bots[3])
+                            elif player == "lastPlay":
+                                player1_selection = "Last Play Bot"
+                                self.setPlayer1(self.bots[4])
+                            elif player == "my":
+                                player1_selection = "My Bot"
+                                self.setPlayer1(self.bots[5])
+                            else:
+                                player1_selection = ""
+                        elif(player2_selection == ""):
+                            if player == "human":
+                                player2_selection = "Human"
+                                self.setPlayer2(self.bots[0])
+                                noPlayers = False
+                                self.setCurrentState("")
+                            elif player == "stupid":
+                                player2_selection = "Stupid Bot"
+                                self.setPlayer2(self.bots[1])
+                                noPlayers = False
+                                self.setCurrentState("")
+                            elif player == "random":
+                                player2_selection = "Random Bot"
+                                self.setPlayer2(self.bots[2])
+                                noPlayers = False
+                                self.setCurrentState("")
+                            elif player == "iterative":
+                                player2_selection = "Iterative Bot"
+                                self.setPlayer2(self.bots[3])
+                                noPlayers = False
+                                self.setCurrentState("")
+                            elif player == "lastPlay":
+                                player2_selection = "Last Play Bot"
+                                self.setPlayer2(self.bots[4])
+                                noPlayers = False
+                                self.setCurrentState("")
+                            elif player == "my":
+                                player2_selection = "My Bot"
+                                self.setPlayer2(self.bots[5])
+                                noPlayers = False
+                                self.setCurrentState("")
+                            else:
+                                player2_selection = ""
                     screen.fill(black)
                     screen.blit(background, backrect)
-                    title=font.render("Player Selection: ",1,(255,255,255))
-                    screen.blit(title, (110, 5))
+
+                    player1_text = font.render("Player 1: "+player1_selection, 1, (255, 255, 255))
+                    player2_text = font.render("Player 2: "+player2_selection, 1, (255, 255, 255))
+                    screen.blit(player1_text, (5, 575))
+                    screen.blit(player2_text, (305, 575))
                     pygame.display.flip()
             while self.getCurrentState() == "postGame":
                 for event in pygame.event.get():
 
                     if event.type == pygame.QUIT:
                         sys.exit()
-            try:
-                self.setInput1(int(input("Select player 1: ")))
-            except:
-                print "Please type a number."
-
-            if(type(self.getInput1()) is int):
-                break
-
-
-        while(True):
-            try:
-                self.setInput2(int(input("Select player 2: ")))
-            except:
-                print "Please type a number."
-
-            if(type(self.getInput2()) is int):
-                break
-
-        while(True):
-            if((self.getInput1()>len(self.bots))|(self.getInput1()<1)):
-                self.setInput1(int(input("Invalid player 1 selection. Please try again: ")))
-            else:
-                self.setInput1(self.getInput1()-1)
-                break
-        while(True):
-            if((self.getInput2()>len(self.bots))|(self.getInput2()<1)):
-                self.setInput2(int(input("Invalid player 2 selection. Please try again: ")))
-            else:
-                self.setInput2(self.getInput2()-1)
-                break
-        self.setPlayer1(self.bots[self.getInput1()])
-        self.setPlayer2(self.bots[self.getInput2()])
 
         print self.getPlayer1().name() + " vs " + self.getPlayer2().name() +". Go!"
         for round in range(1, self.rounds()+1):
@@ -490,9 +581,27 @@ class Main:
             print self.getPlayer2().name() + " won the game."
         else:
             print "Game was a draw."
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit()
+                screen.fill(black)
+                winner_text_string = ""
+                if(self.getP1Score()>self.getP2Score()):
+                    winner_text_string = "Player 1 won the game."
+                elif(self.getP1Score()<self.getP2Score()):
+                    winner_text_string = "Player 2 won the game."
+                else:
+                    winner_text_string = "The game was a tie."
+                #screen.blit(background, backrect)
+                player1_text = font.render("Player 1: "+player1_selection + " (" + str(self.getP1Score()) + ")", 1, (255, 255, 255))
+                player2_text = font.render("Player 2: "+player2_selection+ " (" + str(self.getP2Score()) + ")", 1, (255, 255, 255))
+                winner_text = font.render(winner_text_string, 1, (255, 255, 255))
+                screen.blit(winner_text, (150, 300))
+                screen.blit(player1_text, (5, 575))
+                screen.blit(player2_text, (305, 575))
+                pygame.display.flip()
 
 
-
-
-main = Main(10) # Set up main class and decide on ten rounds
+main = Main(5) # Set up main class and decide on five rounds
 main.run() # Execute the main function to prompt user for input, execute matches, and print results
