@@ -6,11 +6,11 @@ Answers
 
 2. MyBot randombly chooses between playing his own last move and his opponent's last move. He just creates a random int, and based on if it's even or odd, he either returns his own _lastPlay property or his opponent's opponent._lastPlay.
 
-3. 
+3. Python is a strongly, dynamically typed language. It's interperter tracks all variable types. (https://wiki.python.org/moin/Why%20is%20Python%20a%20dynamic%20language%20and%20also%20a%20strongly%20typed%20language). It also has a late binding time to allow it to be dynamic. (https://docs.python.org/2/reference/executionmodel.html)
 
 4. I can always beat the stupid bot and the lastPlay bot if I am thinking about it. The random bot is sometimes hard to beat, as is the iterative bot, and myBot never really wins anything. Interestingly, when bots play each other, there are more instances than you would think that end in a tie. 
 
-5. 
+5. "It is impossible to gain an advantage over a truly random opponent. However, by exploiting the weaknesses of nonrandom opponents, it is possible to gain a significant advantage" - Wiki
 
 6. I love how it forces you to have good form with the whitespace. It can be frustrating to have whitespace and indentation errors, but the readability is amazing. Also, I love how easy it is to prototype something quickly. 
 
@@ -25,3 +25,5 @@ Answers
 11. I used random, itertools, sys and PyGame. Random was simply to create random numbers, used for randomBot and myBot. IterTools was a library that provided easy iteration functions that would loop back, which I needed to accomplish IterativeBot. sys was just a library of system commands, and PyGame is the GUI library I used to create the user interface. Random and sys worked as expected, nothing too exciting there. I loved IterTools, and thought it was a very neat tool. It allows simple and complex iterations through sets of data. PyGame was interesting. It didn't seem to deal much with buttons and other interface tools, but rather rendering graphics, so I resorted to creating a bunch of images for my UI and swapping them out based on what the user does. I'm sure there's a better way to do this, but I just ran out of time to figure it out. So far, I'm not the biggest fan of PyGame for GUI creation, but I think I might grow to like it more if I spent more time with it.
 
 12. There are a lot of other images, so look for complete_game.png in the main folder.
+
+13. We did divide and conquer, all parts were worked on together and we both gave input to each other, it was very productive, and each person did pull their own weight.
