@@ -250,12 +250,6 @@ class LastPlayBot(Player):
 
 '''Human class and User Interface -- Extends Player'''
 class Human(Player):
-    def printUI(self):
-        print "(1) : Rock"
-        print "(2) : Paper"
-        print "(3) : Scissors"
-        print "(4) : Lizard"
-        print "(5) : Spock"
     def GUI_GetPlay(self, x, y):
         if (x > (spock_pos[0] - thresh)) and (x < (spock_pos[0] + thresh)) and (y > (spock_pos[1]-thresh)) and (y < (spock_pos[1]+thresh)):
             return "spock"
@@ -270,18 +264,20 @@ class Human(Player):
         else:
             return "none"
     def play(self, bot):
+        selection = 0
+        noInput = True
         rock = Rock("Rock")
         paper = Paper("Paper")
         spock = Spock("Spock")
         lizard = Lizard("Lizard")
         scissors = Scissors("Scissors")
         moves = [rock, paper, scissors, lizard, spock]
-        selection = 0
-        noInput = True
         while noInput:
             for event in pygame.event.get():
                 mouse_x = pygame.mouse.get_pos()[0]
                 mouse_y = pygame.mouse.get_pos()[1]
+
+                ## Functions to change the image based on mouse hover and get the player's selection based on click
                 play = self.GUI_GetPlay(mouse_x, mouse_y)
                 if(play == "rock"):
                     background = rock_back
@@ -332,12 +328,6 @@ class Human(Player):
                 screen.blit(player2_text, (305, 575))
                 screen.blit(title, (110, 5))
                 pygame.display.flip()
-
-        self.printUI()
-        #selection = int(input("Enter your move: "))
-        #if((selection > 5)| (selection <1)):
-        #    selection = input("Invalid move. Please try again: ")
-        #selection =(int) (selection - 1)
         print "exited"
         self.setLastPlay((moves[selection]))
         return moves[selection]
@@ -437,6 +427,7 @@ class Main:
     def rounds(self):
         return self._rounds
 
+    ## This function gets the player selection based on the mouse position.
     def GUI_get_player_selection(self, x, y):
         if (x > (human_pos[0] - thresh_x)) and (x < (human_pos[0] + thresh_x)) and (y > (human_pos[1]-thresh_y)) and (y < (human_pos[1]+thresh_y)):
             return "human"
@@ -466,6 +457,7 @@ class Main:
                     mouse_x = pygame.mouse.get_pos()[0]
                     mouse_y = pygame.mouse.get_pos()[1]
 
+                    ## function to get the player based on the GUI_player_selection() function
                     player = self.GUI_get_player_selection(mouse_x, mouse_y)
                     if player == "human":
                         background = human_back
@@ -487,6 +479,8 @@ class Main:
                         pos = pygame.mouse.get_pos()
                         x_pos = pos[0]
                         y_pos = pos[1]
+
+                        ## Function to collect the two players from the user.
                         player = self.GUI_get_player_selection(x_pos, y_pos)
                         if(player1_selection == ""):
                             if player == "human":
@@ -550,12 +544,8 @@ class Main:
                     screen.blit(player1_text, (5, 575))
                     screen.blit(player2_text, (305, 575))
                     pygame.display.flip()
-            while self.getCurrentState() == "postGame":
-                for event in pygame.event.get():
 
-                    if event.type == pygame.QUIT:
-                        sys.exit()
-
+        ## Print the gritty details to the conosole in case of interest from the user.
         print self.getPlayer1().name() + " vs " + self.getPlayer2().name() +". Go!"
         for round in range(1, self.rounds()+1):
             element1 = self.getPlayer1().play(self.getPlayer2())
@@ -573,7 +563,7 @@ class Main:
                 self.setP2Score(self.getP2Score()+1)
             else:
                 print "  Round was a tie\n"
-
+        ## Print the finaly game summary to the console in case of interest from the user
         print "The score was " + str(self.getP1Score()) + " to " + str(self.getP2Score()) + "."
         if(self.getP1Score()>self.getP2Score()):
             print self.getPlayer1().name() + " won the game."
@@ -581,6 +571,8 @@ class Main:
             print self.getPlayer2().name() + " won the game."
         else:
             print "Game was a draw."
+
+        ## GUI display for after a completed game. Shows the winner and the scores.
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
