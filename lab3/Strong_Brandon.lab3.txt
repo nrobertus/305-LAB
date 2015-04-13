@@ -1,0 +1,14 @@
+Brandon Strong
+Nathan Robertus
+
+1) The output is '(4 2 5 2 6 10).
+
+2) The function adds one to every element of the list
+
+3) This line checks to see if the list is null
+
+4) This line creates a new list for the modified numbers to be put into
+
+5) This line adds one to the first element in the list and recursively removes the first 
+   element from the list and calls f again.
+
