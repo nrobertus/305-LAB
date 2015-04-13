@@ -23,4 +23,8 @@ recurse 5: (5 9)
 recurse 6: (9)
 recurse 7: ()
 
-7) 
+7) the output is #f becaus 'one isnt the same as 1.
+
+8) Our member? function is head recursive because the last thing it sees is either a null
+   list or an equal value
+
