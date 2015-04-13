@@ -1,9 +1,22 @@
 #lang racket
 (define (f lst)
-  ; (a) This line checks to see if the list is null ;
+  (display lst)
+  (newline)
+  ; (a) ;
   (if (null? lst)
-      ; (b)This line creates a new list for the modified numbers to be put into ;
+      ; (b) ;
       '()
-      ; (c)This line adds one to the first element in the list and recursively removes the first 
-      ;element from the list and calls f again. ;
-      (cons (+ 1 (car lst)) (f (cdr lst)))))
+  ; (c) ;
+  (cons (+ 1 (car lst)) (f (cdr lst)))))
+
+(define (member? e lst)
+  ; This is basically an else if statement ;
+  (cond
+    ; if the list is null, return false ;
+    ((null? lst) #f)
+    ; if e is equal to the first element in the list, return true;
+    ((eq? e (car lst)) #t)
+    ; if e is not equal to the first element in the list, return the recursive call of
+    ; everything after the first element of the lsit ;
+    (else (member? e (cdr lst))))
+)
