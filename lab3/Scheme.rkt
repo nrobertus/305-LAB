@@ -24,5 +24,31 @@
 )
 ; type in (set? '(3 1 4 1 5 9))
 (define (set? lst)
- (if #t "Fill this in" #t)
+  ; If - else ;
+  (cond
+    ; if list is null, return true ;
+    ((null? lst) #t)
+    ; check to see if the first element is repeated ;
+    ((member? (car lst) (cdr lst)) #f)
+    ; if first element isnt member, check cdr of list ;
+    (else (set? (cdr lst))))
 )
+
+(define (union lst1 lst2)
+  (unionHelp '() (append lst1 lst2))
+)
+
+(define (unionHelp lst1 lst2)
+  (cond
+    ; if list is null, return the completed list ;
+    ((null? lst2) lst1)
+    ; check to see if element repeated and remove if it is ;
+    ((member? (car lst2) (cdr lst2)) (unionHelp lst1 (cdr lst2)))
+    ; add the non repeated element to the set ;
+    (else (unionHelp (append lst1 (list (car lst2))) (cdr lst2))))
+)
+
+(f '(3 1 4 1 5 9))
+(member? 'one '(1 2 3 4))
+(set? '(it was the best of times, it was the worst of times))
+(union '(green eggs and) '(ham))

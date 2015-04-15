@@ -28,3 +28,13 @@ recurse 7: ()
 8) Our member? function is head recursive because the last thing it sees is either a null
    list or an equal value
 
+9) This returns false when the function sees that 'it' is repeated
+
+10) "Tail recursion is the special case of recursion that is semantically equivalent to the 
+    iteration constructs normally used to represent repetition in programs. Because tail 
+    recursion is equivalent to iteration, tail-recursive programs can be compiled as efficiently 
+    as iterative programs." - http://www.umiacs.umd.edu/~resnik/ling645_sp2002/cmu_manual/node140.html
+
+11)'(green eggs and ham)
+
+12)
