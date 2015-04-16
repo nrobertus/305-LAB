@@ -1,5 +1,6 @@
 Brandon Strong
 Nathan Robertus
+Lab 3 - Scheme
 
 1) The output is '(4 2 5 2 6 10).
 
@@ -35,6 +36,17 @@ recurse 7: ()
     recursion is equivalent to iteration, tail-recursive programs can be compiled as efficiently 
     as iterative programs." - http://www.umiacs.umd.edu/~resnik/ling645_sp2002/cmu_manual/node140.html
 
-11)'(green eggs and ham)
+11) '(green eggs and ham)
 
-12)
+12) '(and macaroni)
+
+13) I like how compact scheme is and how much it can do in such few lines of code.
+
+14) I disliked how ambiguous it was and that even though the code itself was compact, lots
+    of comments were needed to understand what was going on.
+
+15) I did enjoy this lab, it was an easy and fun tutorial of practical uses of Scheme.
+
+16) We spent one hour tops on this lab.
+
+17) I would use scheme again, most likely for just playing around though.
