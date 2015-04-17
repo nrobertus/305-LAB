@@ -1,0 +1,47 @@
+Nathan Robertus - Lab 3 Answers
+
+[1] '(4 2 5 2 6 10).
+
+[2] It increments every element in the list by one.
+
+[3] This checks for a null list
+
+[4] If the list is null, it returns an empty list.
+
+[5] It increments the first element of the list by one and calls f on it with the tail of the list. 
+
+[6]
+
+(3 1 4 1 5 9)
+(1 4 1 5 9)
+(4 1 5 9)
+(1 5 9)
+(5 9)
+(9)
+()
+
+[7] #f
+
+[8] This is a head recursive function
+
+[9] #f
+
+[10] "Tail recursion is the special case of recursion that is semantically equivalent to the iteration constructs normally used to represent repetition in programs. Because tail recursion is equivalent to iteration, tail-recursive programs can be compiled as efficiently as iterative programs." - http://www.umiacs.umd.edu/~resnik/ling645_sp2002/cmu_manual/node140.html
+
+[11] '(green eggs and ham)
+
+[12] '(and macaroni)
+
+[13] Scheme is cool because it can be quite compact with recursion.
+
+[14] This language is so different from anything I have done before that it was difficult to get used to. I didn't like how I needed to recurse for literally everything.
+
+[15] This lab was fun, and I am glad that it was very simple. I also thought the DrRacket IDE was very cool. 
+
+[16] I spent a little under an hour on this.
+
+[17] Probably not. At this point, I'm not really sure what I would ever need it for.
+
+[EC1] '(1 2 3 5 8 13 21 34 55)
+
+[EC2] This function makes use of a helper function. This helper will flatten a single list by returning one value if the list has one item, and calling the helper again on the head and tail if there is more than one. Then, the flatten function simply returns the union of two lists that are flattened by the helper.
