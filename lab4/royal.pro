@@ -420,8 +420,6 @@ reigned('King George VI', 1936, 1952).
 reigned('Queen Elizabeth II', 1952, 2015).
 
 
-mother(M, C) :- parent(M,C), female(M).
-father(F, C) :- parent(F, C), male(F).
 
 spouse(X, Y) :- married(X, Y).
 spouse(X, Y) :- married(Y, X).
@@ -439,5 +437,27 @@ sibling(X, Y) :-
 	Z \= W, 
 	X \= Y.
 
-brother(M, C) :- sibling(C, M), male(M).
-sister(F, C) :- sibling(C), femaile(F).
+brother(B, C) :- sibling(C, B), male(B).
+sister(S, C) :- sibling(C, S), female(S).
+
+mother(M, C) :- parent(M,C), female(M).
+father(F, C) :- parent(F, C), male(F).
+
+grandparent(G, C) :- parent(G, P), parent(P, C), G \= P.
+
+grandmother(G, C) :- grandparent(G, C), female(G).
+
+grandfather(G, C) :- grandparent(G, C), male(G).
+
+uncle(U, C) :- parent(P, C), brother(U, P).
+uncle(U, C) :-  parent(P, C), sibling(S, P), spouse(U, S), male(U).
+
+aunt(A, C) :-  parent(P, C), sister(A, P).
+aunt(A, C) :-  parent(P, C), sibling(S, P), spouse(A, S), female(A).
+
+grandchild(C, P) :- grandparent(P, C).
+
+ancestor(A, C) :- parent(A, C).
+ancestor(A, C) :- parent(A, S), ancestor(S, C).
+
+descendant(D, A) :- ancestor(A, D).

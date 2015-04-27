@@ -6,10 +6,9 @@ Lab 4
 
 [6] 'Princess Margaret'
 
-[7] 'Charles, Prince of Wales'
+[7] 'Edward, Earl of Wessex', 'Charles, Prince of Wales', and 'Andrew, Duke of York'.
 
 [8] 'Anne, Princess Royal'
 
-... I'm reasonably sure that she had more children than that, so I think the
-child/son/daughter function is returning after the first result instead of all
-results...
+
+ (Note, press TAB in SWI-Prolog to see more results.)
