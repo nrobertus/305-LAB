@@ -1,14 +1,129 @@
-Name
+Nathan Robertus
 CSCI 305
 Lab 4
 
-[1] 'King George VI'
+[1] 	'King George VI'.
 
-[6] 'Princess Margaret'
+[2] 	'Mary, Princess of Teck'.
 
-[7] 'Edward, Earl of Wessex', 'Charles, Prince of Wales', and 'Andrew, Duke of York'.
+[3] 	'King George V'.
 
-[8] 'Anne, Princess Royal'
+[4]	'King George V';
+	'Mary, Princess of Teck'.
 
+[5] 	'Lady Louise Windsor';
+	'James, Viscount Svern';
+	'Prince William, Duke of Cambridge';
+	'Prince Henry of Wales';
+	'Peter Phillips';
+	'Zara Phillips';
+	'Princess Beatrice of York'.
 
- (Note, press TAB in SWI-Prolog to see more results.)
+[6] 	'Princess Margaret'.
+
+[7] 	'Edward, Earl of Wessex';
+	'Charles, Prince of Wales';
+	'Andrew, Duke of York'.
+
+[8] 	'Anne, Princess Royal'.
+
+[9] 	false.
+
+[10] 	'Catherine Middleton'.
+
+[11]	'Charles, Prince of Wales' ;
+	'Lady Diana Spencer' ;
+	'King George III' ;
+	'Charlotte of Mecklenburg-Strelitz' ;
+	'Edward, Duke of Kent' ;
+	'Princess Victoria of Saxe-Coburg-Saalfeld' ;
+	'Franz, Duke of Saxe-Coburg-Saalfeld' ;
+	'Augusta Reuss of Ebersdorf und Lobenstein' ;
+	'Franz, Duke of Saxe-Coburg-Saalfeld' ;
+	'Augusta Reuss of Ebersdorf und Lobenstein' ;
+	'Ernest I, Duke of Saxe-Coburg and Gotha' ;
+	'Princess Louise of Saxe-Gotha-Altenburg' ;
+	'Prince Albert' ;
+	'Queen Victoria' ;
+	'Prince Albert' ;
+	'Queen Victoria' ;
+	'Princess Alice' ;
+	'Louis IV, Grand Duke of Hesse' ;
+	'King Edward VII';
+	'Princess Alexandra of Denmark' ;
+	'King George V' ;
+	'Mary, Princess of Teck' ;
+	'Prince Louis of Battenberg' ;
+	'Princess Victoria of Hesse' ;
+	'Andrew, Prince of Greece' ;
+	'Alice, Princess of Baltenberg' ;
+	'King George VI' ;
+	'Lady Elizabeth Bowes-Lyon' ;
+	'Prince Phillip, Duke of Edinburgh' ;
+	'Queen Elizabeth II' ;
+
+[12]	'Edward, Duke of Kent' ;
+	'Princess Victoria of Saxe-Coburg-Saalfeld' ;
+	'King George III' ;
+	'Charlotte of Mecklenburg-Strelitz' ;
+	'Franz, Duke of Saxe-Coburg-Saalfeld' ;
+	'Augusta Reuss of Ebersdorf und Lobenstein'.
+
+[13]	true.
+
+[14]	'Princess Margaret' ;
+	'Lady Diana Spencer' ;
+	'Anne, Princess Royal' ;
+	'Catherine Middleton' ;
+	'Anthony Armstrong-Jones' 
+	'Sarah Armstrong-Jones' ;
+	'David, Viscount Linley' ;
+	'Charles, Prince of Wales' ;
+	'Andrew, Duke of York' ;
+	'Mark Phillips' ;
+ 	'Edward, Earl of Wessex' ;
+ 	'Prince William, Duke of Cambridge' ;
+ 	'Prince Henry of Wales' ;
+ 	'Sophie Rhys-Jones' ;
+	'Sarah Ferguson' ;
+	'Catherine Middleton' ;
+	'Prince George of Cambridge' ;
+	'Princess Beatrice of York' ;
+	'Princess Eugenie of York' ;
+	'Peter Phillips' ;
+	'Zara Phillips' ;
+	'Autumn Kelly' ;
+	'Mike Tindall' ;
+	'Mia Tindall' ;
+	'Savannah Phillips' ;
+	'Isla Phillips' ;
+	'Lady Louise Windsor' ;
+	'James, Viscount Severn' ;
+	'Serena Armstrong-Jones' ;
+	'Charles Armstrong-Jones' ;
+	'Margarita Armstrong-Jones' ;
+	'Daniel Chatto' ;
+	'Samuel Chatto' ;
+	'Arthur Chatto' ;
+	false.
+
+[15] 	'King George V'.
+
+[16]	I like how simple it is to define rules in prolog. It is really easy to do if you understand how it works?
+
+[17] 	I didn't like how it was sometimes confusing as to which order the variables needed to be, but I eventually got used to it.
+
+[18] 	I did enjoy the lab, except for the extra credit. One thing that made it difficult is not knowing if your answers generated were correct or not, but I am assuming they are.
+
+[19] 	I spent about four hours on this lab. A lot of it was just copying the stack trace 62 liens at a time.
+
+[20] 	Possibly, if I need to set up a database or some sort of easily searchably body of information.
+
+[EC1] 	'David, Viscount Linley' ;
+	'Sarah Armstrong-Jones' ;
+
+[EC2]	'David, Viscount Linley' ;
+	'Sarah Armstrong-Jones' ;
+
+[EC3] The second one took longer because it had to look through every parent in the database twice instead of once.
+	The stack trace will show that it is over twice as long.

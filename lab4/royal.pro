@@ -461,3 +461,11 @@ ancestor(A, C) :- parent(A, C).
 ancestor(A, C) :- parent(A, S), ancestor(S, C).
 
 descendant(D, A) :- ancestor(A, D).
+
+older(X, Y) :- born(X, Z), born(Y, A), A @< Z, X \= Y.
+
+younger(X, Y) :- born(X, Z), born(Y, A), Z @< A, X \= Y.
+
+regentWhenBorn(R, C) :- born(C, B), reigned(R, S, E), S @=< B, B @=< E. 
+
+cousin(X,Y) :- parent(M,X), parent(D,Y), sibling(M,D), X\=Y.
