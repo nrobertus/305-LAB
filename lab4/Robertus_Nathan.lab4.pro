@@ -1,5 +1,7 @@
 /* Royal Family of England 1760-now */
 /* Version 2015-1.0.0               */
+/* Nathan Robertus		            */
+/* CSCI 305 Lab 4	                */
 
 male('King George III').
 male('King George IV').
