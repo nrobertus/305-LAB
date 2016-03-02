@@ -422,15 +422,18 @@ reigned('King George VI', 1936, 1952).
 reigned('Queen Elizabeth II', 1952, 2015).
 
 
-
+% This checks both relationships, just in case the order is backwards in the database
 spouse(X, Y) :- married(X, Y).
 spouse(X, Y) :- married(Y, X).
 
+% This checks child relationships, which are the inverse of parent relationships
 child(C, P) :- parent(P, C).
 
+% This just extends the child relationship and adds a gender case, one for son and one for daughter
 son(S, P) :- child(S, P), male(S).
 daughter(D, P) :- child(D, P), female(D).
 
+% This checks the sibling relationship by checking the parents and finding other children of the parents of the given child.
 sibling(X, Y) :- 
 	parent(Z, X), 
 	parent(Z, Y), 
@@ -439,35 +442,47 @@ sibling(X, Y) :-
 	Z \= W, 
 	X \= Y.
 
+% This extends the siblings rule and adds gender checks, allowing for both brothers and sisters	
 brother(B, C) :- sibling(C, B), male(B).
 sister(S, C) :- sibling(C, S), female(S).
 
+% This is a simple extension of the parent rule, adding gender, allowing for both mothers and fathers
 mother(M, C) :- parent(M,C), female(M).
 father(F, C) :- parent(F, C), male(F).
 
+% This just uses two rules to find the parents of the parents of the given person.
 grandparent(G, C) :- parent(G, P), parent(P, C), G \= P.
 
+% This is the extension of the grandparent clause and adds gender, allowing for both grandmothers and grandfathers
 grandmother(G, C) :- grandparent(G, C), female(G).
-
 grandfather(G, C) :- grandparent(G, C), male(G).
 
+% This checks for the uncles of the person, both the male siblings of the parents, and the husbands of the female siblings.
 uncle(U, C) :- parent(P, C), brother(U, P).
 uncle(U, C) :-  parent(P, C), sibling(S, P), spouse(U, S), male(U).
 
+% This checks for the aunts of the person, both the female siblings of the parents, and the wives of the male siblings.
 aunt(A, C) :-  parent(P, C), sister(A, P).
 aunt(A, C) :-  parent(P, C), sibling(S, P), spouse(A, S), female(A).
 
+% This grandchild rule just reverses the grandparent rule.
 grandchild(C, P) :- grandparent(P, C).
 
+% The ancestor rule recursively finds all the parents of the parents of the parents of the.... and returns all of them.
 ancestor(A, C) :- parent(A, C).
 ancestor(A, C) :- parent(A, S), ancestor(S, C).
 
+% This rule just reverses the ancestor rule.
 descendant(D, A) :- ancestor(A, D).
 
+% This checks the year both people are born, and returns true if one is older, false if they are younger.
 older(X, Y) :- born(X, Z), born(Y, A), A @< Z, X \= Y.
 
+% This is the inverse of the older rule.
 younger(X, Y) :- born(X, Z), born(Y, A), Z @< A, X \= Y.
 
+% This checks the year the person was born and find who was ruling at the time. 
 regentWhenBorn(R, C) :- born(C, B), reigned(R, S, E), S @=< B, B @=< E. 
 
+% This finds the children of the siblings of the parents of the given person. 
 cousin(X,Y) :- parent(M,X), parent(D,Y), sibling(M,D), X\=Y.
